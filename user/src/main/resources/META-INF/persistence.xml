@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="repoPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.luteflex.microservices.user.Models.User</class>
+
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://luteflext.ca14z22yqzfm.us-east-2.rds.amazonaws.com:3306/luteflexdb"/>
+      <property name="javax.persistence.jdbc.password" value="Lollo123_1"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+      <property name="javax.persistence.jdbc.user" value="lute"/>
+
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.logging.logger" value="DefaultLogger"/>
+      <property name="eclipselink.logging.level" value="FINE"/>
+    </properties>
+  </persistence-unit>
+</persistence>
