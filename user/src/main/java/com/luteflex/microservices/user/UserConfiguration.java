@@ -18,10 +18,13 @@ public class UserConfiguration
     //TokenRequest user = new TokenRequest("200", "Lute", "Admin", "something.png");
 
     public String signIn(User user) throws Exception {
-        //userRepo.login(user);
-        //sender.requestToken(user);
-        //check user in database, then create a jwt and send it back to the client.
-        return null; //return jwt
+        User u = userRepo.login(user);
+        if (u != null){
+            sender.requestToken(new TokenRequest(u.getId(), u.getName(), u.getRole(), u.getAvatar()));
+            return Receiver.gettoken(u.getName());
+        } else {
+            return "De inloggegevens zijn incorrect, probeer het opnieuw of maak een account aan.";
+        }
     }
 
     String register(User user) throws Exception {

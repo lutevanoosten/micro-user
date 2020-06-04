@@ -24,10 +24,12 @@ public class UserRepo {
     }
 
 
-    public User login() {
+    public User login(User user) {
         createEm();
         TypedQuery<User> query = em.createQuery(
-                "Create database luteflext", User.class);
+                "select u from User u where u.email = :email and u.password = :password", User.class);
+        query.setParameter("email", user.getEmail());
+        query.setParameter("password", user.getPassword());
         return query.getSingleResult();
     }
 }
