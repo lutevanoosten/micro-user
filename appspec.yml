@@ -1,5 +1,21 @@
 version: 0.0
 os: linux
 files:
-  - source: /user/target/user-0.0.1-SNAPSHOT.jar
+  - source: /user/build/libs/app.war
     destination: /tmp/
+hooks:
+  BeforeInstall:
+    - location: /userscripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: /user/scripts/stop_application.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: /user/scripts/start_application.sh
+      timeout: 300
+      runas: root
+  ValidateService:
+    - location: /user/scripts/basic_health_check.sh
+      runas: root
