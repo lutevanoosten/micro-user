@@ -6,6 +6,9 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -15,16 +18,11 @@ public class Receiver {
     //private final static String QUEUE_NAME = "Returned_token";
 
     static Channel authservice;
-    public static void main(String[] argv) throws Exception {
 
-
-
-    }
-
-    public static String gettoken(String QUEUE_NAME) throws IOException, InterruptedException, TimeoutException {
+    public static String gettoken(String QUEUE_NAME) throws IOException, InterruptedException, TimeoutException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setUri("amqp://user:RXnf11alr9eq@ec2-35-156-90-184.eu-central-1.compute.amazonaws.com:5672");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
@@ -38,12 +36,17 @@ public class Receiver {
             System.out.println(" [x] Received '" + m + "'");
 
         };
+        m.set("Er wordt een update uitgevoerd, probeer het over enkele minuten opnieuw");
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
-        while (m.get().isEmpty()){
-            System.out.println("List is empty...");
-
-            System.out.println("Waiting...");
+        long startTime = System.currentTimeMillis();
+        while (m.get().length() < 100){
+            if ((System.currentTimeMillis()-startTime) > 10000){
+                channel.close();
+                break;
+            }
         }
+
+        channel.close();
         return m.toString();
 
     }

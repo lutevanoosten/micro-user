@@ -23,7 +23,8 @@ public class Sender {
         ObjectMapper Obj = new ObjectMapper();
         String message = Obj.writeValueAsString(tokenRequest);
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setUri("amqp://user:RXnf11alr9eq@ec2-35-156-90-184.eu-central-1.compute.amazonaws.com:5672");
+
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);

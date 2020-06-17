@@ -29,7 +29,8 @@ public class UserConfiguration
 
     String register(User user) throws Exception {
         userRepo.create(user);
-        sender.requestToken(new TokenRequest(user.getId(), user.getName(), user.getRole(), user.getAvatar()));
+        User u = userRepo.login(user);
+        sender.requestToken(new TokenRequest(u.getId(), u.getName(), u.getRole(), u.getAvatar()));
 
         return Receiver.gettoken(user.getName()); //return jwt
     }
